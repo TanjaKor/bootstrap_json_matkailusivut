@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Matkalle</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/grt-responsive-menu.css">
+		<style>
+			body{margin: 10px;}
+			#matka{margin: 65px auto 10px;}
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<div class="menu-container">
+				<div class="row no-margin">
+					<div class="col-sm-4 col-xs-6 no-padding">
+						<a href="#alku"  class="grt-logo"><img src="images/logo1.jpg"></a>
+					</div>
+					<div class="col-sm-8 col-xs-6 no-padding">
+						<nav>
+                            <button class="grt-mobile-button">
+                            <div class="line1"></div>
+                            <div class="line2"></div>
+                            <div class="line3"></div>
+                            </button>
+                            <ul class="grt-menu">
+                                <li><a href="index.html">Etusivu</a></li>
+                                <li><a href="galleria.html">Galleria</a></li>
+                                <li class="grt-dropdown"><a>Tampere</a>
+                                    <ul class="grt-dropdown-list">
+                                        <li class="active"><a href="matka.html">Matka</a></li>
+                                        <li><a href="tapahtumat.html">Tapahtuma</a></li>
+                                        <li><a href="saa.html">Sää</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="liikenne.html">Liikenne</a></li>
+								<li><a href="kuvat.html">Kuvat</a></li>
+                            </ul>
+                        </nav>
+					</div>
+				</div>
+			</div>
+		</header>
+        
+		<div id="matka"></div>
+
+		<!-- Jquery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="js/grt-responsive-menu.js"></script>
+		<script>
+			$.getJSON("https://run.mocky.io/v3/4eafa181-11f2-4f3b-a31e-001acad95339", function( data ) {
+				var items = [];
+				var kulkuneuvo = data.kulkuneuvo;
+				var matkustajat = data.matkustajat;
+				items.push("<h3> Matkakohde: " + data.matkakohde + "</h3>");
+				items.push("<p><b>Kulkuneuvo: </b></p><ul>")
+				$.each(kulkuneuvo, function (key, d){
+					items.push("<li>" + data.kulkuneuvo[key] + "</li>");
+				})
+				items.push("</ul><br>");
+				items.push("<p><b>Matkustusaika: </b>" + data.matkustusaika.alkaa + " - ");
+				items.push(data.matkustusaika.päättyy + "<p>");
+				items.push("<p><b>Matkapäivien lkm: </b>" + data.matkapäivät + "</p>");
+				items.push("<p><b>Matkustajat: </b></p><ul>")
+				$.each(matkustajat, function (key, d){
+					items.push("<li>" + data.matkustajat[key].etunimi + " " + data.matkustajat[key].sukunimi + "</li>")
+				})
+				items.push("</ul>")
+				if (data.majoitus) {
+					items.push("<p>on majoitus</p>")
+				}
+				else {
+					items.push("<p>ei ole majoitusta</p>")
+				}
+				$("#matka").append(items.join(""));
+			})
+		</script>		
+	</body>
+</html>

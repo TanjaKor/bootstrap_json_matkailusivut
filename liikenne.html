@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Matkalle</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/grt-responsive-menu.css">
+		<style>
+			body{margin: 10px;}
+			#liikenne{margin: 65px auto 10px; text-align: center;}
+			.kuva{width: 100%; max-width: 500px;}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="menu-container">
+				<div class="row no-margin">
+					<div class="col-sm-4 col-xs-6 no-padding">
+						<a href="#alku"  class="grt-logo"><img src="images/logo1.jpg"></a>
+					</div>
+					<div class="col-sm-8 col-xs-6 no-padding">
+						<nav>
+                            <button class="grt-mobile-button">
+                            <div class="line1"></div>
+                            <div class="line2"></div>
+                            <div class="line3"></div>
+                            </button>
+                            <ul class="grt-menu">
+                                <li><a href="index.html">Etusivu</a></li>
+                                <li><a href="galleria.html">Galleria</a></li>
+                                <li class="grt-dropdown"><a>Tampere</a>
+                                    <ul class="grt-dropdown-list">
+                                        <li><a href="matka.html">Matka</a></li>
+                                        <li><a href="tapahtumat.html">Tapahtuma</a></li>
+                                        <li><a href="saa.html">Sää</a></li>
+                                    </ul>
+                                </li>
+                                <li class="active"><a href="liikenne.html">Liikenne</a></li>
+								<li><a href="kuvat.html">Kuvat</a></li>
+                            </ul>
+                        </nav>
+					</div>
+				</div>
+			</div>
+		</header>
+        
+		<div id="liikenne"></div>
+
+		<!-- Jquery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="js/grt-responsive-menu.js"></script>
+		<script>
+			$.getJSON("https://tie.digitraffic.fi/api/v1/data/camera-data?lastUpdated=false", function(data) {
+				var items = [];
+				var kamerat = data.cameraStations[7].cameraPresets;
+				items.push("<h3>Tieliikennekuvaa teistä</h3>");
+				$.each(kamerat, function (key, d){
+					items.push("<li><b>" + data.cameraStations[7].cameraPresets[key].presentationName + "</b></li>");
+					items.push("<li><img class='kuva' src='" + data.cameraStations[7].cameraPresets[key].imageUrl + "'></li>");
+					items.push("<li>Aikaleima: " + data.cameraStations[7].cameraPresets[key].measuredTime + "</li>");
+				})
+				items.push("</ul>");
+				$("#liikenne").append(items.join(""));
+			})
+		</script>
+	</body>
+</html>
